@@ -8,6 +8,7 @@ Holds the main logic of Alien Invasion.
 import sys
 import pygame
 from settings import Settings
+from ship import Ship
 
 class AlienInvasion:
     """Used to control the pygame window."""
@@ -29,7 +30,7 @@ class AlienInvasion:
         self.bg = pygame.transform.scale(self.bg, 
             (self.settings.screen_w, self.settings.screen_h))
 
-        
+        self.ship = Ship(self)
 
     def run_game(self):
         """Used to manage the pygame window."""
@@ -41,6 +42,7 @@ class AlienInvasion:
                     sys.exit()
 
             self.screen.blit(self.bg, (0,0))
+            self.ship.draw()
             pygame.display.flip()
             self.clock.tick(self.settings.FPS)
 
