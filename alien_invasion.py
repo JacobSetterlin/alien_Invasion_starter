@@ -1,14 +1,14 @@
 """
-Alien Invasion
-Jacob Setterlin
+alien_invasion
 
-Holds the main logic of Alien Invasion.
+Holds the main logic of the game.
 """
 
 import sys
 import pygame
 from settings import Settings
 from ship import Ship
+from arsenal import Arsenal
 
 class AlienInvasion:
     """Used to control the pygame window."""
@@ -30,7 +30,11 @@ class AlienInvasion:
         self.bg = pygame.transform.scale(self.bg, 
             (self.settings.screen_w, self.settings.screen_h))
 
-        self.ship = Ship(self)
+        self.ship = Ship(self, Arsenal(self))
+        
+        pygame.mixer.init()
+        self.laser_sound = pygame.mixer.Sound(self.settings.laser_sound)
+        self.laser_sound.set_volume(0.3)
 
     def run_game(self):
         """Used to manage the pygame window."""
@@ -65,6 +69,10 @@ class AlienInvasion:
             self.ship.moving_right = True
         elif event.key == pygame.K_LEFT:
             self.ship.moving_left = True
+        elif event.key == pygame.K_SPACE:
+            if self.ship.fire():
+                self.laser_sound.play()
+                self.laser_sound.fadeout(250)
 
     def _check_keyup_events(self, event):
         """Checks if the player is releasing a button."""

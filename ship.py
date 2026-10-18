@@ -1,6 +1,5 @@
 """
 ship
-Jacob Setterlin
 
 This file is used to hold the Ship class.
 """
@@ -10,13 +9,14 @@ from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from alien_invasion import AlienInvasion
+    from arsenal import Arsenal
 
 class Ship:
     """Used to manage how the player's ship displayes to the pygame window."""
 
-    def __init__(self, game: "AlienInvasion"):
+    def __init__(self, game: "AlienInvasion", arsenal: "Arsenal"):
         """
-            Used to manage the settings of the ship.
+           Player's Ship.
         """
         
         self.game = game
@@ -34,9 +34,15 @@ class Ship:
         self.moving_right = False
         self.moving_left = False
         self.x = float(self.rect.x)
+        self.arsenal = arsenal
 
     def update(self):
-        """Used to update the ships position when the player presses keys."""
+        """Used to update the ships information when the player presses keys"""
+        self._update_ship_movement()
+        self.arsenal.update_arsenal()
+
+    def _update_ship_movement(self):
+        """Used to clculate the position of the ship when the player presses keys."""
         temp = self.settings.ship_speed
         if self.moving_right and self.rect.right < self.boundaries.right:
             self.x += temp
@@ -48,5 +54,8 @@ class Ship:
 
     def draw(self):
         """Used to draw the ship onto the pygame window."""
-    
+        self.arsenal.draw()
         self.screen.blit(self.image, self.rect)
+
+    def fire(self):
+        return self.arsenal.fire_bullet()
