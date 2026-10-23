@@ -29,9 +29,12 @@ class Alien(Sprite):
         self.rect.x = x
         self.rect.y = y
         self.y = float(self.rect.y)
+        self.x = float(self.rect.x)
 
     def update(self):
-        pass
+        temp = self.settings.fleet_speed
+        self.x += temp
+        self.rect.x = self.x
 
     def draw_alien(self):
         """Used to draw bullets onto the window."""
