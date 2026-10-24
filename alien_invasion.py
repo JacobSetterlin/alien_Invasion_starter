@@ -9,7 +9,8 @@ import pygame
 from settings import Settings
 from ship import Ship
 from arsenal import Arsenal
-from alien import Alien
+#from alien import Alien
+from alien_fleet import AlienFleet
 
 class AlienInvasion:
     """Used to control the pygame window."""
@@ -32,7 +33,8 @@ class AlienInvasion:
             (self.settings.screen_w, self.settings.screen_h))
 
         self.ship = Ship(self, Arsenal(self))
-        self.alien = Alien(self, 10, 10)
+        self.alien_fleet = AlienFleet(self)
+        self.alien_fleet.create_fleet()
         
         pygame.mixer.init()
         self.laser_sound = pygame.mixer.Sound(self.settings.laser_sound)
@@ -43,15 +45,15 @@ class AlienInvasion:
         while self.running:
             self._check_events()
             self.ship.update()
-            self.alien.update()
+            #self.alien.update()
             self._update_screen()
             self.clock.tick(self.settings.FPS)
 
     def _update_screen(self):
-        """Used to display the ship image."""
+        """Used to display sprites"""
         self.screen.blit(self.bg, (0,0))
         self.ship.draw()
-        self.alien.draw_alien()
+        self.alien_fleet.draw()
         pygame.display.flip()
 
     def _check_events(self):
@@ -68,7 +70,7 @@ class AlienInvasion:
                 self._check_keyup_events(event)
     
     def _check_keydown_events(self, event):
-        """Checks if the player is holding any buttons."""
+        """Checks if the player is pressing any buttons."""
         if event.key == pygame.K_RIGHT:
             self.ship.moving_right = True
         elif event.key == pygame.K_LEFT:

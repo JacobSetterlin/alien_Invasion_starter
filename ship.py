@@ -58,4 +58,5 @@ class Ship:
         self.screen.blit(self.image, self.rect)
 
     def fire(self):
+        """Used to fire the player's ship."""
         return self.arsenal.fire_bullet()
