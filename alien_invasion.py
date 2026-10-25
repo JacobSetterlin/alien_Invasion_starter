@@ -54,8 +54,10 @@ class AlienInvasion:
             self.clock.tick(self.settings.FPS)
 
     def _check_collisions(self):
+        """Used to check if aliens or the ship are colliding with anything."""
         if self.ship.check_collisions(self.alien_fleet.fleet):
             self._reset_level()
+        
         if self.alien_fleet.check_fleet_bottom():
                     self._reset_level()
         
@@ -64,9 +66,11 @@ class AlienInvasion:
                     self.impact_sound.play()
                     self.impact_sound.fadeout(500)
 
-        
-
+        if self.alien_fleet.check_destroyed_status():
+             self._reset_level()
+         
     def _reset_level(self):
+        """Used to reset the level."""
         self.ship.arsenal.arsenal
         self.alien_fleet.fleet.empty()
         self.alien_fleet.create_fleet()
