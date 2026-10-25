@@ -97,9 +97,19 @@ class AlienFleet:
 
     def _check_fleet_edges(self):
         """Used to check if an alien is hitting the edge of the window."""
-        alien = Alien
+        alien: Alien
         for alien in self.fleet:
             if alien.check_edges():
                 self.drop_alien_fleet()
                 self.fleet_direction *= -1
                 break
+
+    def check_collisions(self, other_group):
+        return pygame.sprite.groupcollide(self.fleet, other_group, True, True)
+
+    def check_fleet_bottom(self):
+        alien: Alien
+        for alien in self.fleet:
+            if alien.rect.bottom >= self.settings.screen_h:
+                return True
+            return False
