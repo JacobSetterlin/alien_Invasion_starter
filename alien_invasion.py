@@ -39,6 +39,9 @@ class AlienInvasion:
         pygame.mixer.init()
         self.laser_sound = pygame.mixer.Sound(self.settings.laser_sound)
         self.laser_sound.set_volume(0.3)
+        
+        self.impact_sound = pygame.mixer.Sound(self.settings.impact_sound)
+        self.impact_sound.set_volume(0.3)
 
     def run_game(self):
         """Used to manage the pygame window."""
@@ -46,9 +49,21 @@ class AlienInvasion:
             self._check_events()
             self.ship.update()
             self.alien_fleet.update_fleet()
+            self._check_collisions()
             self._update_screen()
             self.clock.tick(self.settings.FPS)
 
+    def _check_collisions(self):
+        if self.ship.check_collisions(self.alien_fleet.fleet):
+            self._reset_level()
+
+        
+
+    def _reset_level(self):
+        self.ship.arsenal.arsenal
+        self.alien_fleet.fleet.empty()
+        self.alien_fleet.create_fleet()
+    
     def _update_screen(self):
         """Used to display sprites"""
         self.screen.blit(self.bg, (0,0))
