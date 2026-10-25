@@ -118,4 +118,4 @@ class AlienFleet:
 
     def check_destroyed_status(self):
         """Checks if the alien fleet has been destroyed"""
-        return self.fleet
+        return not self.fleet
