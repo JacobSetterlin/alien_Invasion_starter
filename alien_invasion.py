@@ -13,8 +13,9 @@ from arsenal import Arsenal
 from alien_fleet import AlienFleet
 from game_stats import GameStats
 from time import sleep
-from button import Button
-from hud import HUD
+#from button import Button
+#from hud import HUD
+from fire_rate_selector import FireRateSelector
 
 class AlienInvasion:
     """Used to control the pygame window."""
@@ -31,7 +32,7 @@ class AlienInvasion:
         pygame.display.set_caption(self.settings.name)
 
         self.game_stats = GameStats(self)
-        self.HUD = HUD(self)
+        #self.HUD = HUD(self)
         
         self.running = True
         self.clock = pygame.time.Clock()
@@ -41,11 +42,12 @@ class AlienInvasion:
             (self.settings.screen_w, self.settings.screen_h))
 
         self.ship = Ship(self, Arsenal(self))
+        self.fire_mode_selector = FireRateSelector()
         self.alien_fleet = AlienFleet(self)
         self.alien_fleet.create_fleet()
 
-        self.play_button = Button(self, 'Play')
-        self.game_active = False
+        #self.play_button = Button(self, 'Play')
+        self.game_active = True 
         
         pygame.mixer.init()
         self.laser_sound = pygame.mixer.Sound(self.settings.laser_sound)
@@ -78,13 +80,13 @@ class AlienInvasion:
             self.impact_sound.play()
             self.impact_sound.fadeout(500)
             self.game_stats.update(collisions)
-            self.HUD.update_scores()
+            #self.HUD.update_scores()
 
         if self.alien_fleet.check_destroyed_status():
             self._reset_level()
             self.settings.increase_difficulty()
             self.game_stats.update_level()
-            self.HUD.update_level()
+            #self.HUD.update_level()
 
     def _check_game_status(self):
         """Used the check information about the state of the game."""
@@ -98,6 +100,8 @@ class AlienInvasion:
          
     def _reset_level(self):
         """Used to reset the level."""
+        self._determine_ship_fire_rate()
+        
         self.ship.arsenal.arsenal
         self.alien_fleet.fleet.empty()
         self.alien_fleet.create_fleet()
@@ -106,7 +110,7 @@ class AlienInvasion:
         """Used to restart the game"""
         self.settings.initialize_dynamic_settings()
         self.game_stats.reset_stats()
-        self.HUD.update_scores()
+        #self.HUD.update_scores()
         self._reset_level()
         self.ship._center_ship()
         self.game_active = True
@@ -117,10 +121,10 @@ class AlienInvasion:
         self.screen.blit(self.bg, (0,0))
         self.ship.draw()
         self.alien_fleet.draw()
-        self.HUD.draw()
+        #self.HUD.draw()
 
         if not self.game_active:
-            self.play_button.draw()
+            #self.play_button.draw()
             pygame.mouse.set_visible(True)
 
         pygame.display.flip()
@@ -145,8 +149,8 @@ class AlienInvasion:
         """Checks if a button has been clicked."""
 
         mouse_pos = pygame.mouse.get_pos()
-        if self.play_button.check_clicked(mouse_pos):
-            self.restart_game()
+        #if self.play_button.check_clicked(mouse_pos):
+            #self.restart_game()
 
     def _check_keydown_events(self, event):
         """Checks if the player is pressing any buttons."""
@@ -170,6 +174,14 @@ class AlienInvasion:
             self.game_stats.save_scores()
             pygame.quit()
             sys.exit()
+
+    def _determine_ship_fire_rate(self):
+        """
+        Used to give the player a choice between two fire modes and 
+        update the ships fire rate accordingly.
+        """
+        self.fire_mode_selector.ask_player()
+        #update fire rate
 
 if __name__ == '__main__':
     ai = AlienInvasion()
