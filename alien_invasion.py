@@ -42,7 +42,7 @@ class AlienInvasion:
             (self.settings.screen_w, self.settings.screen_h))
 
         self.ship = Ship(self, Arsenal(self))
-        self.fire_mode_selector = FireRateSelector()
+        self.fire_rate_selector = FireRateSelector(self)
         self.alien_fleet = AlienFleet(self)
         self.alien_fleet.create_fleet()
 
@@ -86,8 +86,8 @@ class AlienInvasion:
             self._reset_level()
             self.settings.increase_difficulty()
             self.game_stats.update_level()
-            #self.HUD.update_level()
-
+            #self.HUD.update_level()  
+ 
     def _check_game_status(self):
         """Used the check information about the state of the game."""
         if self.game_stats.ships_left > 0:
@@ -180,7 +180,7 @@ class AlienInvasion:
         Used to give the player a choice between two fire modes and 
         update the ships fire rate accordingly.
         """
-        self.fire_mode_selector.ask_player()
+        self.fire_rate_selector.ask_player()
         #update fire rate
 
 if __name__ == '__main__':
