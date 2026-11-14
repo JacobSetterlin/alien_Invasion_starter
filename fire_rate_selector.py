@@ -20,7 +20,7 @@ class FireRateSelector:
 
     def __init__(self, game: 'AlienInvasion'):
         self.game = game
-        self.settings = Settings()
+        self.settings = game.settings
 
     def ask_player(self):
         """Used to ask the player to choose a fire rate."""
@@ -63,11 +63,11 @@ class FireRateSelector:
             for event in pygame.event.get():
                 if event.type == pygame.KEYUP:
                     if event.key == pygame.K_1:
-                        print("one")
+                        self.settings.bullet_amount = self.chosen_fire_rates[0].amount_of_bullets
                         selected = True
 
                     elif event.key == pygame.K_2:
-                        print('two')
+                        self.settings.bullet_amount = self.chosen_fire_rates[1].amount_of_bullets
                         selected = True
 
             if selected == True:

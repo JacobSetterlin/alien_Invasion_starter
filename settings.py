@@ -50,7 +50,7 @@ class Settings:
         self.bullet_amount = 5
         self.bullet_w = 25
         self.bullet_h = 80
-        self.fleet_speed = 2
+        self.fleet_speed = 0
         self.fleet_drop_speed = 40
         self.alien_points = 50
 

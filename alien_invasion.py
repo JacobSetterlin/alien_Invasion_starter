@@ -181,7 +181,6 @@ class AlienInvasion:
         update the ships fire rate accordingly.
         """
         self.fire_rate_selector.ask_player()
-        #update fire rate
 
 if __name__ == '__main__':
     ai = AlienInvasion()
